@@ -1,10 +1,16 @@
 from domain.service.interface import GameService
+from domain.model.game import Game
 
 class GameServiceImpl(GameService):
 
     def __init__(self, repository):
         self.repository = repository
 
+    def create_game(self):
+        game = Game()
+        self.repository.save(game)
+        return game
+    
     def make_move(self, game_uuid, new_field):
         game = self.repository.load(game_uuid)
         if game is None:
@@ -30,12 +36,12 @@ class GameServiceImpl(GameService):
 
         return game
 
-    def validation(self, old_field, cur_field):
+    def validate(self, old_field, cur_field):
         diff = []
         for i in range(3):
             for j in range(3):
                 if old_field[i][j] != cur_field[i][j]:
-                    diff.append(old_field[i][j], cur_field[i][j])
+                    diff.append((old_field[i][j], cur_field[i][j]))
         if len(diff) != 1:
             return False
         

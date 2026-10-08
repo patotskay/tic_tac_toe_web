@@ -12,4 +12,4 @@ class Storage:
 
     def get(self, game_uuid):
         with self._lock:
-            return self._storage[game_uuid]
+            return self._storage.get(game_uuid)

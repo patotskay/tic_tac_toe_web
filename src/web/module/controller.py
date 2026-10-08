@@ -28,3 +28,12 @@ def post_game(uuid, service):
         return jsonify({'error': str(e)}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+def create_game(service):
+    game = service.create_game()
+    mapper = GameWebMapper()
+    game_web = mapper.to_web(game)
+    return jsonify({
+        'uuid': game_web.uuid,
+        'field': game_web.field.field
+    }), 201
